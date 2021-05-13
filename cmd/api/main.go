@@ -27,9 +27,9 @@ var (
 func main() {
 	var (
 		ctx               = context.Background()
-		port              = os.Getenv("PORT")
+		port              = os.Getenv("SERVICE_PORT")
 		marvelsRepository = initMarvelsRepository()
-		//cacheRepository   = initCacheRepository()
+		_                 = initCacheRepository()
 		mux               = api.NewMux(marvelsRepository)
 		server            = http.Server{
 			Addr:    ":" + port,
@@ -58,7 +58,9 @@ func initMarvelsRepository() marvels.MarvelsRepository {
 }
 
 func initCacheRepository() characters.CacheRepository {
-	r := lib.NewRedis("localhost", "6379")
+	redisHost := os.Getenv("REDIS_HOST")
+	redisPort := os.Getenv("REDIS_PORT")
+	r := lib.NewRedis(redisHost, redisPort)
 	repository := crepo.NewCache(r)
 	return repository
 }
