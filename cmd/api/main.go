@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"github.com/ivantedja/xmarvel/lib"
 
 	"net/http"
 	"os"
@@ -12,8 +13,10 @@ import (
 	"go.uber.org/zap"
 
 	"github.com/ivantedja/xmarvel/api"
+	"github.com/ivantedja/xmarvel/characters"
+	crepo "github.com/ivantedja/xmarvel/characters/repository"
 	"github.com/ivantedja/xmarvel/marvels"
-	"github.com/ivantedja/xmarvel/marvels/repository"
+	mrepo "github.com/ivantedja/xmarvel/marvels/repository"
 )
 
 var (
@@ -26,6 +29,7 @@ func main() {
 		ctx               = context.Background()
 		port              = os.Getenv("PORT")
 		marvelsRepository = initMarvelsRepository()
+		//cacheRepository   = initCacheRepository()
 		mux               = api.NewMux(marvelsRepository)
 		server            = http.Server{
 			Addr:    ":" + port,
@@ -49,7 +53,13 @@ func initMarvelsRepository() marvels.MarvelsRepository {
 	publicKey := os.Getenv("MARVEL_PUBLIC_KEY")
 	privateKey := os.Getenv("MARVEL_PRIVATE_KEY")
 	timeout := 5 * time.Second
-	repository := repository.NewAPI(baseUrl, publicKey, privateKey, timeout)
+	repository := mrepo.NewAPI(baseUrl, publicKey, privateKey, timeout)
+	return repository
+}
+
+func initCacheRepository() characters.CacheRepository {
+	r := lib.NewRedis("localhost", "6379")
+	repository := crepo.NewCache(r)
 	return repository
 }
 
