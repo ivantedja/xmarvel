@@ -10,11 +10,11 @@ coverhtml:
 dep:
 	go mod download
 
-format:
-	gofmt -s -w .
-
 lint:
 	golangci-lint run ./...
+
+pretty:
+	gofmt -s -w .
 
 test:
 	go test -v -race ./...
