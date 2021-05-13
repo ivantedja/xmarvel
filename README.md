@@ -4,9 +4,20 @@
 
 ## Usage
 
-Run via console:
+1. Register to https://developer.marvel.com/ to get API credentials
+
+2. Prepare environment variables (**adjust the credentials accordingly**):
 ```
-$ PORT=1234 MARVEL_HOST=https://gateway.marvel.com MARVEL_PUBLIC_KEY=<your_public_key> MARVEL_PRIVATE_KEY=<your_private_key> go run cmd/api/main.go
+$ cp env.sample .env
+```
+
+3. Run via console:
+```
+$ go run cmd/api/main.go
+```
+
+4. Test the endpoint:
+```
 $ curl localhost:1234/characters
 ```
 
