@@ -31,21 +31,23 @@ func initiateCharacterCollectionResponse() *entity.CharacterCollection {
 	return &entity.CharacterCollection{
 		Code:   200,
 		Status: "Ok",
-		Data:   entity.CharacterData{},
+		Data: entity.CharacterData{
+			Results: initiateCharactersResponse(),
+		},
 	}
 }
 
-//func initiateCharactersResponse() []*entity.Character {
-//	return []*entity.Character{
-//		{
-//			ID:          1011198,
-//			Name:        "Agents of Atlas",
-//			Description: "See my map",
-//		},
-//		{
-//			ID:          1010801,
-//			Name:        "Ant-Man (Scott Lang)",
-//			Description: "Build colony",
-//		},
-//	}
-//}
+func initiateCharactersResponse() []entity.Character {
+	return []entity.Character{
+		{
+			ID:          1011198,
+			Name:        "Agents of Atlas",
+			Description: "See my map",
+		},
+		{
+			ID:          1010801,
+			Name:        "Ant-Man (Scott Lang)",
+			Description: "Build colony",
+		},
+	}
+}

@@ -2,7 +2,9 @@ package usecase_test
 
 import (
 	"context"
+	"errors"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/suite"
@@ -36,14 +38,33 @@ func (s *SearchTestSuite) TestCacheHitSuccess() {
 func (s *SearchTestSuite) TestCacheHitMarshalError() {
 	s.CacheRepository.On("Get", mock.Anything, "marvels-characters").Return("zzz", nil).Once()
 	s.MarvelsUsecase.On("Search", mock.Anything, map[string]string{}).Return(initiateCharacterCollectionResponse(), nil).Once()
-	_, merr := s.usecase.Search(context.Background())
+	arr, merr := s.usecase.Search(context.Background())
+	s.Assert().Equal(arr, []uint{})
 	s.Assert().NotNil(merr)
 }
 
-func (s *SearchTestSuite) TestCacheHitEmpty() {
+func (s *SearchTestSuite) TestCallMarvelsError() {
 	s.CacheRepository.On("Get", mock.Anything, "marvels-characters").Return("", nil).Once()
-	s.MarvelsUsecase.On("Search", mock.Anything, map[string]string{}).Return(initiateCharacterCollectionResponse(), nil).Once()
+	s.MarvelsUsecase.On("Search", mock.Anything, map[string]string{"limit": "100"}).Return(nil, errors.New("SomeError")).Once()
 	arr, merr := s.usecase.Search(context.Background())
-	s.Assert().Equal(arr, []uint{})
+	s.Assert().Equal(arr, []uint{1011198, 1010801})
+	s.Assert().Nil(merr)
+}
+
+func (s *SearchTestSuite) TestCallMarvelsSuccess() {
+	s.CacheRepository.On("Get", mock.Anything, "marvels-characters").Return("", nil).Once()
+	s.MarvelsUsecase.On("Search", mock.Anything, map[string]string{"limit": "100"}).Return(initiateCharacterCollectionResponse(), nil).Once()
+	s.CacheRepository.On("Set", mock.Anything, "marvels-characters", `[1011198,1010801]`, 24*time.Hour).Return(nil).Once()
+	arr, merr := s.usecase.Search(context.Background())
+	s.Assert().Equal(arr, []uint{1011198, 1010801})
+	s.Assert().Nil(merr)
+}
+
+func (s *SearchTestSuite) TestCallMarvelsSuccessCacheErrorSuppressed() {
+	s.CacheRepository.On("Get", mock.Anything, "marvels-characters").Return("", nil).Once()
+	s.MarvelsUsecase.On("Search", mock.Anything, map[string]string{"limit": "100"}).Return(initiateCharacterCollectionResponse(), nil).Once()
+	s.CacheRepository.On("Set", mock.Anything, "marvels-characters", `[1011198,1010801]`, 24*time.Hour).Return(errors.New("SomeError")).Once()
+	arr, merr := s.usecase.Search(context.Background())
+	s.Assert().Equal(arr, []uint{1011198, 1010801})
 	s.Assert().Nil(merr)
 }
