@@ -3,6 +3,7 @@ package usecase
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"time"
 )
 
@@ -23,15 +24,20 @@ func (u *Usecase) Search(ctx context.Context) ([]uint, error) {
 
 	cc, err := u.marvelsUsecase.Search(ctx, filter)
 	if err != nil {
-		return arrInt, nil
+		return nil, err
 	}
 
 	for _, c := range cc.Data.Results {
 		arrInt = append(arrInt, c.ID)
+		u.writeToCache(ctx, "marvels-characters-"+fmt.Sprint(c.ID), c, 24*time.Hour)
 	}
 
-	arrJson, _ := json.Marshal(arrInt)
-	u.charactersCacheRepository.Set(ctx, "marvels-characters", string(arrJson), 24*time.Hour)
+	u.writeToCache(ctx, "marvels-characters", arrInt, 24*time.Hour)
 
 	return arrInt, nil
+}
+
+func (u *Usecase) writeToCache(ctx context.Context, key string, val interface{}, expiration time.Duration) {
+	arrJson, _ := json.Marshal(val)
+	u.charactersCacheRepository.Set(ctx, key, string(arrJson), expiration)
 }
