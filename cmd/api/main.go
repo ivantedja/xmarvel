@@ -2,19 +2,20 @@ package main
 
 import (
 	"context"
-	"github.com/ivantedja/xmarvel/lib"
-
+	"log"
 	"net/http"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
 
+	"github.com/joho/godotenv"
 	"go.uber.org/zap"
 
 	"github.com/ivantedja/xmarvel/api"
 	"github.com/ivantedja/xmarvel/characters"
 	crepo "github.com/ivantedja/xmarvel/characters/repository"
+	"github.com/ivantedja/xmarvel/lib"
 	"github.com/ivantedja/xmarvel/marvels"
 	mrepo "github.com/ivantedja/xmarvel/marvels/repository"
 )
@@ -25,6 +26,11 @@ var (
 )
 
 func main() {
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Fatalf("Error loading .env file")
+	}
+
 	var (
 		ctx               = context.Background()
 		port              = os.Getenv("SERVICE_PORT")
