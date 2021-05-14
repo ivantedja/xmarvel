@@ -39,3 +39,11 @@ func (s *SearchTestSuite) TestCacheHitMarshalError() {
 	_, merr := s.usecase.Search(context.Background())
 	s.Assert().NotNil(merr)
 }
+
+func (s *SearchTestSuite) TestCacheHitEmpty() {
+	s.CacheRepository.On("Get", mock.Anything, "marvels-characters").Return("", nil).Once()
+	s.MarvelsUsecase.On("Search", mock.Anything, map[string]string{}).Return(initiateCharacterCollectionResponse(), nil).Once()
+	arr, merr := s.usecase.Search(context.Background())
+	s.Assert().Equal(arr, []uint{})
+	s.Assert().Nil(merr)
+}

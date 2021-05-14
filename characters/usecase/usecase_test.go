@@ -35,17 +35,17 @@ func initiateCharacterCollectionResponse() *entity.CharacterCollection {
 	}
 }
 
-func initiateCharactersResponse() []*entity.Character {
-	return []*entity.Character{
-		{
-			ID:          1011198,
-			Name:        "Agents of Atlas",
-			Description: "See my map",
-		},
-		{
-			ID:          1010801,
-			Name:        "Ant-Man (Scott Lang)",
-			Description: "Build colony",
-		},
-	}
-}
+//func initiateCharactersResponse() []*entity.Character {
+//	return []*entity.Character{
+//		{
+//			ID:          1011198,
+//			Name:        "Agents of Atlas",
+//			Description: "See my map",
+//		},
+//		{
+//			ID:          1010801,
+//			Name:        "Ant-Man (Scott Lang)",
+//			Description: "Build colony",
+//		},
+//	}
+//}

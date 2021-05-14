@@ -29,7 +29,7 @@ func TestHandler(t *testing.T) {
 func (s *HandlerTestSuite) SetupTest() {
 	usecase := new(mocks.Usecase)
 	cacheRepository := new(mocks.CacheRepository)
-	handler := handler.NewMarvels(cacheRepository, usecase)
+	handler := handler.NewCharacters(cacheRepository, usecase)
 	router := chi.NewRouter()
 	router.Get("/characters", handler.Index)
 	s.usecase = usecase

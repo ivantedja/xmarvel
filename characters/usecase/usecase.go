@@ -1,14 +1,12 @@
 package usecase
 
 import (
-	"go.uber.org/zap"
-
 	"github.com/ivantedja/xmarvel/characters"
 	"github.com/ivantedja/xmarvel/marvels"
 )
 
 var (
-	logger, _ = zap.NewProduction(zap.Fields(zap.String("type", "characters-usecase")))
+	//logger, _ = zap.NewProduction(zap.Fields(zap.String("type", "characters-usecase")))
 )
 
 type Usecase struct {
