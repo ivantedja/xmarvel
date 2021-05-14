@@ -39,5 +39,5 @@ func (u *Usecase) Search(ctx context.Context) ([]uint, error) {
 
 func (u *Usecase) writeToCache(ctx context.Context, key string, val interface{}, expiration time.Duration) {
 	arrJson, _ := json.Marshal(val)
-	u.charactersCacheRepository.Set(ctx, key, string(arrJson), expiration)
+	_ = u.charactersCacheRepository.Set(ctx, key, string(arrJson), expiration)
 }
