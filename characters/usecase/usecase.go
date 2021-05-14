@@ -12,13 +12,13 @@ var (
 )
 
 type Usecase struct {
-	charactersCache characters.CacheRepository
-	marvesUsecase   marvels.Usecase
+	charactersCacheRepository characters.CacheRepository
+	marvesUsecase             marvels.Usecase
 }
 
 func New(charactersCache characters.CacheRepository, marvesUsecase marvels.Usecase) characters.Usecase {
 	return &Usecase{
-		charactersCache: charactersCache,
-		marvesUsecase:   marvesUsecase,
+		charactersCacheRepository: charactersCache,
+		marvesUsecase:             marvesUsecase,
 	}
 }

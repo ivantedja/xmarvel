@@ -5,7 +5,6 @@ package mocks
 import (
 	context "context"
 
-	entity "github.com/ivantedja/xmarvel/entity"
 	mock "github.com/stretchr/testify/mock"
 )
 
@@ -15,15 +14,15 @@ type Usecase struct {
 }
 
 // Search provides a mock function with given fields: ctx
-func (_m *Usecase) Search(ctx context.Context) ([]*entity.Character, error) {
+func (_m *Usecase) Search(ctx context.Context) ([]uint, error) {
 	ret := _m.Called(ctx)
 
-	var r0 []*entity.Character
-	if rf, ok := ret.Get(0).(func(context.Context) []*entity.Character); ok {
+	var r0 []uint
+	if rf, ok := ret.Get(0).(func(context.Context) []uint); ok {
 		r0 = rf(ctx)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]*entity.Character)
+			r0 = ret.Get(0).([]uint)
 		}
 	}
 

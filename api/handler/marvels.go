@@ -3,17 +3,16 @@ package handler
 import (
 	"net/http"
 
+	"github.com/go-chi/chi"
 	"go.uber.org/zap"
 
-	"github.com/go-chi/chi"
-
-	"github.com/ivantedja/xmarvel/marvels"
+	"github.com/ivantedja/xmarvel/characters"
 )
 
 type Marvels struct {
 	*chi.Mux
-	repository marvels.MarvelsRepository
-	marvels    marvels.Usecase
+	cacheRepository characters.CacheRepository
+	characters      characters.Usecase
 }
 
 func (m Marvels) Index(w http.ResponseWriter, r *http.Request) {
@@ -21,12 +20,7 @@ func (m Marvels) Index(w http.ResponseWriter, r *http.Request) {
 		ctx = r.Context()
 	)
 
-	// TODO: adjust the filter accordingly
-	filter := make(map[string]string)
-	filter["limit"] = "2"
-	filter["modifiedSince"] = "2015-04-28"
-
-	cc, err := m.marvels.Search(ctx, filter)
+	cc, err := m.characters.Search(ctx)
 	if err != nil {
 		logger.Error("index", zap.Error(err))
 		render(w, ErrBadRequest, 400)
@@ -36,11 +30,11 @@ func (m Marvels) Index(w http.ResponseWriter, r *http.Request) {
 	render(w, cc, 200)
 }
 
-func NewMarvels(repository marvels.MarvelsRepository, marvels marvels.Usecase) Marvels {
+func NewMarvels(cacheRepository characters.CacheRepository, characters characters.Usecase) Marvels {
 	h := Marvels{
-		Mux:        chi.NewMux(),
-		repository: repository,
-		marvels:    marvels,
+		Mux:             chi.NewMux(),
+		cacheRepository: cacheRepository,
+		characters:      characters,
 	}
 
 	h.Get("/", h.Index)

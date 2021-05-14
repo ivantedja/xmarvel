@@ -35,9 +35,11 @@ func main() {
 		ctx               = context.Background()
 		port              = os.Getenv("SERVICE_PORT")
 		marvelsRepository = initMarvelsRepository()
-		_                 = initCacheRepository()
-		mux               = api.NewMux(marvelsRepository)
-		server            = http.Server{
+		marvelsUsecase    = api.NewMarvels(marvelsRepository)
+		cacheRepository   = initCacheRepository()
+
+		mux    = api.NewMux(cacheRepository, marvelsUsecase)
+		server = http.Server{
 			Addr:    ":" + port,
 			Handler: mux,
 		}

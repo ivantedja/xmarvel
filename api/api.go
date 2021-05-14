@@ -6,15 +6,21 @@ import (
 	"github.com/go-chi/cors"
 
 	"github.com/ivantedja/xmarvel/api/handler"
+	"github.com/ivantedja/xmarvel/characters"
+	cusecase "github.com/ivantedja/xmarvel/characters/usecase"
 	"github.com/ivantedja/xmarvel/marvels"
-	"github.com/ivantedja/xmarvel/marvels/usecase"
+	musecase "github.com/ivantedja/xmarvel/marvels/usecase"
 )
 
-func NewMux(repository marvels.MarvelsRepository) *chi.Mux {
+func NewMarvels(repository marvels.MarvelsRepository) marvels.Usecase {
+	return musecase.New(repository)
+}
+
+func NewMux(cacheRepository characters.CacheRepository, musecase marvels.Usecase) *chi.Mux {
 	var (
-		mux            = chi.NewMux()
-		marvels        = usecase.New(repository)
-		marvelsHandler = handler.NewMarvels(repository, marvels)
+		mux               = chi.NewMux()
+		charactersUsecase = cusecase.New(cacheRepository, musecase)
+		marvelsHandler    = handler.NewMarvels(cacheRepository, charactersUsecase)
 	)
 
 	mux.Use(chimid.RequestID)
