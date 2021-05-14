@@ -20,7 +20,7 @@ func NewMux(cacheRepository characters.CacheRepository, musecase marvels.Usecase
 	var (
 		mux               = chi.NewMux()
 		charactersUsecase = cusecase.New(cacheRepository, musecase)
-		marvelsHandler    = handler.NewMarvels(cacheRepository, charactersUsecase)
+		marvelsHandler    = handler.NewCharacters(cacheRepository, charactersUsecase)
 	)
 
 	mux.Use(chimid.RequestID)

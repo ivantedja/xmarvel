@@ -9,18 +9,18 @@ import (
 	"github.com/ivantedja/xmarvel/characters"
 )
 
-type Marvels struct {
+type Characters struct {
 	*chi.Mux
 	cacheRepository characters.CacheRepository
 	characters      characters.Usecase
 }
 
-func (m Marvels) Index(w http.ResponseWriter, r *http.Request) {
+func (c Characters) Index(w http.ResponseWriter, r *http.Request) {
 	var (
 		ctx = r.Context()
 	)
 
-	cc, err := m.characters.Search(ctx)
+	cc, err := c.characters.Search(ctx)
 	if err != nil {
 		logger.Error("index", zap.Error(err))
 		render(w, ErrBadRequest, 400)
@@ -30,8 +30,8 @@ func (m Marvels) Index(w http.ResponseWriter, r *http.Request) {
 	render(w, cc, 200)
 }
 
-func NewMarvels(cacheRepository characters.CacheRepository, characters characters.Usecase) Marvels {
-	h := Marvels{
+func NewCharacters(cacheRepository characters.CacheRepository, characters characters.Usecase) Characters {
+	h := Characters{
 		Mux:             chi.NewMux(),
 		cacheRepository: cacheRepository,
 		characters:      characters,
