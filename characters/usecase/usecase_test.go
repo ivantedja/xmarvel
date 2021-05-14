@@ -27,27 +27,27 @@ func initiateUsecase(base *BaseTestSuite) characters.Usecase {
 	)
 }
 
-func initiateCharacterCollectionResponse() *entity.CharacterCollection {
+func initiateCharacterCollectionResponse(total, chars, offset uint) *entity.CharacterCollection {
 	return &entity.CharacterCollection{
 		Code:   200,
 		Status: "Ok",
 		Data: entity.CharacterData{
-			Results: initiateCharactersResponse(),
+			Total:   total,
+			Results: initiateCharactersResponse(chars, offset),
 		},
 	}
 }
 
-func initiateCharactersResponse() []entity.Character {
-	return []entity.Character{
-		{
-			ID:          1011198,
-			Name:        "Agents of Atlas",
-			Description: "See my map",
+func initiateCharactersResponse(chars, offset uint) []entity.Character {
+	var c []entity.Character
+	var i uint
+	for i = 1; i <= chars; i++ {
+		c = append(c, entity.Character{
+			ID:          1011000 + offset + i,
+			Name:        "",
+			Description: "",
 		},
-		{
-			ID:          1010801,
-			Name:        "Ant-Man (Scott Lang)",
-			Description: "Build colony",
-		},
+		)
 	}
+	return c
 }
