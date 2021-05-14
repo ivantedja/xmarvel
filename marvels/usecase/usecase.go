@@ -7,7 +7,7 @@ import (
 )
 
 var (
-	logger, _ = zap.NewProduction(zap.Fields(zap.String("type", "usecase")))
+	logger, _ = zap.NewProduction(zap.Fields(zap.String("type", "marvels-usecase")))
 )
 
 type Usecase struct {
