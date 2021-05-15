@@ -43,19 +43,42 @@ $ docker-compose up -d
 $ cp env.sample .env
 ```
 
+3. Generate binary:
+```
+$ make build
+```
+
+4. Run via console:
+```
+$ ./bin/main
+```
+
+OR alternatively you can directly run the application without generating the binary. Step no 3 can be directly changed into
+
 3. Run via console:
 ```
 $ make run
 ```
 
-4. Test the endpoint:
+
+
+Test the endpoint:
 ```
 $ curl localhost:8080/characters
 ```
 
+## Cache Warming
+
+Xmarvels contains characters' cache which rarely changed.
+To keep the cache warm in the background, we can setup a cron to warm it up regularly.
+
+Assuming you already have the binary from `make build` command
+```
+0 * * * * ./bin/warmer
+```
+
 ## To do
 
-- [ ] Warm up cache
 - [ ] Add datadog metrics
   - [ ] Counter Number of API call to Marvel
   - [ ] Middleware this service's endpoint

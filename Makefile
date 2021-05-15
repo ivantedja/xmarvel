@@ -1,5 +1,6 @@
 build:
 	go build -o bin/main cmd/api/main.go
+	go build -o bin/warmer script/cache_warmer.go
 
 cover:
 	go test -v -race ./... -coverprofile=coverage.out
@@ -30,3 +31,6 @@ tidy:
 
 vendor:
 	go mod vendor
+
+warm:
+	go run script/cache_warmer.go
