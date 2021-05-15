@@ -26,7 +26,7 @@ $ cp env.sample .env
 
 3. Run via console:
 ```
-$ go run cmd/api/main.go
+$ make run
 ```
 
 4. Test the endpoint:

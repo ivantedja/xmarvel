@@ -1,3 +1,6 @@
+build:
+	go build -o bin/main cmd/api/main.go
+
 cover:
 	go test -v -race ./... -coverprofile=coverage.out
 	go tool cover -html=coverage.out -o coverage.html
@@ -15,6 +18,9 @@ lint:
 
 pretty:
 	gofmt -s -w .
+
+run:
+	go run cmd/api/main.go
 
 test:
 	go test -v -race ./...
