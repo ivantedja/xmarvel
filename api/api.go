@@ -20,7 +20,7 @@ func NewMux(cacheRepository characters.CacheRepository, musecase marvels.Usecase
 	var (
 		mux               = chi.NewMux()
 		charactersUsecase = cusecase.New(cacheRepository, musecase)
-		marvelsHandler    = handler.NewCharacters(cacheRepository, charactersUsecase)
+		charactersHandler = handler.NewCharacters(cacheRepository, charactersUsecase)
 	)
 
 	mux.Use(chimid.RequestID)
@@ -28,7 +28,7 @@ func NewMux(cacheRepository characters.CacheRepository, musecase marvels.Usecase
 	mux.Use(chimid.Recoverer)
 	mux.Use(cors.AllowAll().Handler)
 
-	mux.Mount("/characters", marvelsHandler)
+	mux.Mount("/characters", charactersHandler)
 
 	return mux
 }

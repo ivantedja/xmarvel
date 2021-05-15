@@ -121,6 +121,7 @@ func TestMarvelHttp_Show(t *testing.T) {
 	}{
 		"response success": {args{"http://example.com", 1016823}, newDummyHTTP(200, nil, dummyResponse), false},
 		"not found error":  {args{"http://example.com", 99999999999}, newDummyHTTP(404, errors.New("not found"), dummyResponse), true},
+		"not found response": {args{"http://example.com", 99999999999}, newDummyHTTP(404, nil, dummyResponse), true},
 		"fail marshal":     {args{"http://example.com", 1016823}, newDummyHTTP(200, nil, "zzz"), true},
 	}
 	for name, tt := range tests {
