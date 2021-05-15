@@ -8,9 +8,21 @@
 2. [Install Golang](https://golang.org/dl/) > 1.15
 3. Register to https://developer.marvel.com/ to get API credentials
 
-## API Documentation
+## Documentation
 
-See https://github.com/ivantedja/xmarvel/tree/master/swagger/index.html
+### Endpoints
+
+- `/characters` - Return list of Marvel's "characterId"
+- `/characters/{characterId}` - Return Marvel's character by `{characterId}`
+
+### Flows
+
+![List Character IDs](https://github.com/ivantedja/xmarvel/tree/master/docs/flow/xmarvels-List.png)
+
+![Show Character](https://github.com/ivantedja/xmarvel/tree/master/docs/flow/xmarvels-Show.png)
+
+### Swagger API Doc
+See https://github.com/ivantedja/xmarvel/tree/master/docs/swagger/index.html
 
 ## Running
 
