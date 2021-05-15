@@ -4,6 +4,8 @@
 
 ## Documentation
 
+Xmarvel provides service to proxy request to Marvel's API (see: https://developer.marvel.com/)
+
 ### Endpoints
 
 - `/characters` - Return list of Marvel's "characterId"
@@ -11,12 +13,17 @@
 
 ### Flows
 
+#### List Character IDs `/characters`
+
 ![List Character IDs](https://github.com/ivantedja/xmarvel/blob/master/docs/flows/xmarvels-List.png)
+
+#### Show Character `/characters/{characterId}`
 
 ![Show Character](https://github.com/ivantedja/xmarvel/blob/master/docs/flows/xmarvels-Show.png)
 
-### Swagger API Doc
-See https://github.com/ivantedja/xmarvel/tree/master/docs/swagger/index.html
+### API Doc
+
+See on [SwaggerHub](https://app.swaggerhub.com/apis/ivantedja/Xmarvel/1.0.0)
 
 ## Prerequisites
 
