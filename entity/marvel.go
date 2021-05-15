@@ -18,5 +18,5 @@ type Character struct {
 	ID          uint   `json:"id"`
 	Description string `json:"description"`
 	Name        string `json:"name"`
-	Modified    string `json:"modified"`
+	Modified    string `json:"-"`
 }
