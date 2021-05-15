@@ -8,4 +8,5 @@ import (
 
 type Usecase interface {
 	Search(ctx context.Context, filter map[string]string) (*entity.CharacterCollection, error)
+	Show(ctx context.Context, ID int) (*entity.Character, error)
 }

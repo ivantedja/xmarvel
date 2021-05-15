@@ -30,3 +30,11 @@ func initiateCharacterCollectionResponse() *entity.CharacterCollection {
 		Data:   entity.CharacterData{},
 	}
 }
+
+func initiateCharacterResponse() *entity.Character {
+	return &entity.Character{
+		ID:          1016823,
+		Name:        "Abomination (Ultimate)",
+		Description: "Cool",
+	}
+}

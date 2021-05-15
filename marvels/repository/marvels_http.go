@@ -72,3 +72,35 @@ func (a *api) Search(ctx context.Context, filter map[string]string) (*entity.Cha
 
 	return &cc, nil
 }
+
+func (a *api) Show(ctx context.Context, ID int) (*entity.Character, error) {
+	uuid := uuid.New().String()
+	hash := fmt.Sprintf("%x", md5.Sum([]byte(uuid+a.privateKey+a.publicKey)))
+
+	url, _ := url.Parse(a.baseUrl + "/v1/public/characters/" + fmt.Sprint(ID))
+
+	q := url.Query()
+	q.Set("ts", uuid)
+	q.Set("apikey", a.publicKey)
+	q.Set("hash", hash)
+
+	url.RawQuery = q.Encode()
+
+	resp, rerr := a.client.Get(url.String())
+	if rerr != nil {
+		return &entity.Character{}, rerr
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		dump, _ := httputil.DumpResponse(resp, true)
+		return nil, fmt.Errorf("error response: %q", dump)
+	}
+
+	var cc entity.CharacterCollection
+	if jerr := json.NewDecoder(resp.Body).Decode(&cc); jerr != nil {
+		return &entity.Character{}, jerr
+	}
+
+	return &cc.Data.Results[0], nil
+}

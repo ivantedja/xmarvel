@@ -90,3 +90,61 @@ func TestMarvelHttp_GetCollection(t *testing.T) {
 		})
 	}
 }
+
+func TestMarvelHttp_Show(t *testing.T) {
+	dummyResponse := `
+		{
+			"code": 200,
+			"status": "Ok",
+			"data": {
+				"offset": 0,
+				"limit": 20,
+				"total": 1,
+				"count": 1,
+				"results": [
+					{
+						"id": 1011334,
+						"name": "3-D Man"
+					}
+				]
+			}
+		}
+	`
+	type args struct {
+		baseUrl string
+		ID      int
+	}
+	tests := map[string]struct {
+		args        args
+		dummyServer *DummyHTTP
+		wantErr     bool
+	}{
+		"response success": {args{"http://example.com", 1016823}, newDummyHTTP(200, nil, dummyResponse), false},
+		"not found error":  {args{"http://example.com", 99999999999}, newDummyHTTP(404, errors.New("not found"), dummyResponse), true},
+		"fail marshal":     {args{"http://example.com", 1016823}, newDummyHTTP(200, nil, "zzz"), true},
+	}
+	for name, tt := range tests {
+		t.Run(name, func(t *testing.T) {
+			// fake the request, then return to normal later on
+			tmp := repo.HttpClient
+			defer func() {
+				repo.HttpClient = tmp
+			}()
+			repo.HttpClient = &http.Client{
+				Transport: tt.dummyServer,
+			}
+			a := repo.NewAPI(
+				tt.args.baseUrl,
+				"",
+				"",
+				time.Second,
+			)
+
+			_, err := a.Show(context.TODO(), tt.args.ID)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("api.Show() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+		})
+	}
+}
