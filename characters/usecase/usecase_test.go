@@ -51,3 +51,11 @@ func initiateCharactersResponse(chars, offset uint) []entity.Character {
 	}
 	return c
 }
+
+func initiateCharacterResponse() *entity.Character {
+	return &entity.Character{
+		ID:          1011000,
+		Name:        "",
+		Description: "",
+	}
+}

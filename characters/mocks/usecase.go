@@ -5,6 +5,7 @@ package mocks
 import (
 	context "context"
 
+	entity "github.com/ivantedja/xmarvel/entity"
 	mock "github.com/stretchr/testify/mock"
 )
 
@@ -29,6 +30,29 @@ func (_m *Usecase) Search(ctx context.Context) ([]uint, error) {
 	var r1 error
 	if rf, ok := ret.Get(1).(func(context.Context) error); ok {
 		r1 = rf(ctx)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// Show provides a mock function with given fields: ctx, ID
+func (_m *Usecase) Show(ctx context.Context, ID int) (*entity.Character, error) {
+	ret := _m.Called(ctx, ID)
+
+	var r0 *entity.Character
+	if rf, ok := ret.Get(0).(func(context.Context, int) *entity.Character); ok {
+		r0 = rf(ctx, ID)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*entity.Character)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(context.Context, int) error); ok {
+		r1 = rf(ctx, ID)
 	} else {
 		r1 = ret.Error(1)
 	}

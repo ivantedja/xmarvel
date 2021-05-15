@@ -135,8 +135,3 @@ func (u *Usecase) retrieveCharacters(ctx context.Context, limit, offset string) 
 
 	return cc, nil
 }
-
-func (u *Usecase) writeToCache(ctx context.Context, key string, val interface{}, expiration time.Duration) {
-	arrJson, _ := json.Marshal(val)
-	_ = u.charactersCacheRepository.Set(ctx, key, string(arrJson), expiration)
-}

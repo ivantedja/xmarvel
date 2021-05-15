@@ -1,8 +1,11 @@
 package usecase
 
 import (
+	"context"
+	"encoding/json"
 	"github.com/ivantedja/xmarvel/characters"
 	"github.com/ivantedja/xmarvel/marvels"
+	"time"
 )
 
 var (
@@ -19,4 +22,9 @@ func New(charactersCache characters.CacheRepository, marvelsUsecase marvels.Usec
 		charactersCacheRepository: charactersCache,
 		marvelsUsecase:            marvelsUsecase,
 	}
+}
+
+func (u *Usecase) writeToCache(ctx context.Context, key string, val interface{}, expiration time.Duration) {
+	arrJson, _ := json.Marshal(val)
+	_ = u.charactersCacheRepository.Set(ctx, key, string(arrJson), expiration)
 }
