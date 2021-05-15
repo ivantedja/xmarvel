@@ -18,17 +18,11 @@ $ go run cmd/api/main.go
 
 4. Test the endpoint:
 ```
-$ curl localhost:1234/characters
+$ curl localhost:8080/characters
 ```
 
 ## To do
 
-- [ ] Add characters domain
-  - [ ] Add redis repository
-  - [ ] Add usecase
-    - [ ] Bulk call Marvels' API
-    - [ ] Set cache key for list of ids
-    - [ ] Set cache key for single id
 - [ ] Warm up cache
 - [ ] Add datadog metrics
   - [ ] Counter Number of API call to Marvel
