@@ -75,9 +75,3 @@ Assuming you already have the binary from `make build` command, we can set a cro
 ```
 0 * * * * ./bin/warmer
 ```
-
-## To do
-
-- [ ] Add datadog metrics
-  - [ ] Counter Number of API call to Marvel
-  - [ ] Middleware this service's endpoint
