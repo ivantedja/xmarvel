@@ -60,8 +60,6 @@ OR alternatively you can directly run the application without generating the bin
 $ make run
 ```
 
-
-
 Test the endpoint:
 ```
 $ curl localhost:8080/characters
@@ -72,7 +70,8 @@ $ curl localhost:8080/characters
 Xmarvels contains characters' cache which rarely changed.
 To keep the cache warm in the background, we can setup a cron to warm it up regularly.
 
-Assuming you already have the binary from `make build` command
+Assuming you already have the binary from `make build` command, we can set a cron that runs hourly:
+
 ```
 0 * * * * ./bin/warmer
 ```
