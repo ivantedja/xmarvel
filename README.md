@@ -27,7 +27,7 @@ See on [SwaggerHub](https://app.swaggerhub.com/apis/ivantedja/Xmarvel/1.0.0)
 
 ## Prerequisites
 
-1. [Install Docker](https://docs.docker.com/engine/install/) to setup dependencies
+1. [Install Docker Compose](https://docs.docker.com/compose/install/) to setup dependencies
 2. [Install Golang](https://golang.org/dl/) > 1.15
 3. Register to https://developer.marvel.com/ to get API credentials
 
