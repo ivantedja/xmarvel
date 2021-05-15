@@ -25,7 +25,7 @@ func main() {
 		cacheRepository   = initCacheRepository()
 		charactersUsecase = cusecase.New(cacheRepository, marvelsUsecase)
 	)
-	charactersUsecase.Search(ctx)
+	_, _ = charactersUsecase.Search(ctx)
 }
 
 func initMarvelsRepository() marvels.MarvelsRepository {
