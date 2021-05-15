@@ -1,0 +1,130 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Xmarvel API",
+    "description": "Xmarvel is an API that proxying request for Marvel's API https://developer.marvel.com/",
+    "contact": {
+      "email": "ivantedja@gmail.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://virtserver.swaggerhub.com/ivantedja/Xmarvel/1.0.0",
+      "description": "SwaggerHub API Auto Mocking"
+    }
+  ],
+  "tags": [
+    {
+      "name": "developers",
+      "description": "Operations available to regular developers"
+    }
+  ],
+  "paths": {
+    "/characters": {
+      "get": {
+        "tags": [
+          "developers"
+        ],
+        "summary": "Retrieve Marvel character ID(s)",
+        "description": "Retrieve Marvel character ID(s)\n",
+        "operationId": "searchCharacter",
+        "responses": {
+          "200": {
+            "description": "Marvel's \"characterId\"(s)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "example": [
+                    1011334,
+                    1017100,
+                    1009144,
+                    1010699
+                  ],
+                  "items": {
+                    "type": "integer"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/characters/{characterId}": {
+      "get": {
+        "tags": [
+          "developers"
+        ],
+        "summary": "Retrieve Marvel character by \"characterId\"",
+        "description": "By passing in Marvel's \"characterId\", you can find Marvel' character detail\n",
+        "operationId": "findCharacter",
+        "parameters": [
+          {
+            "name": "characterId",
+            "in": "path",
+            "description": "Marvel's \"characterId\"",
+            "required": true,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Marvel's character",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MarvelCharacter"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "MarvelCharacter": {
+        "required": [
+          "description",
+          "id",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1017100
+          },
+          "name": {
+            "type": "string",
+            "example": "A-Bomb (HAS)"
+          },
+          "description": {
+            "type": "string",
+            "example": "Rick Jones has been Hulk's best bud since day one, but now he's more than a friend...he's a teammate! Transformed by a Gamma energy explosion, A-Bomb's thick, armored skin is just as strong and powerful as it is blue. And when he curls into action, he uses it like a giant bowling ball of destruction!"
+          }
+        }
+      }
+    }
+  }
+}

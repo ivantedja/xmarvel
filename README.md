@@ -8,6 +8,10 @@
 2. [Install Golang](https://golang.org/dl/) > 1.15
 3. Register to https://developer.marvel.com/ to get API credentials
 
+## API Documentation
+
+See https://github.com/ivantedja/xmarvel/tree/master/swagger/index.html
+
 ## Running
 
 1. Install dependencies
