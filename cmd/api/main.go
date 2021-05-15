@@ -56,7 +56,7 @@ func initMarvelsRepository() marvels.MarvelsRepository {
 	baseUrl := os.Getenv("MARVEL_HOST")
 	publicKey := os.Getenv("MARVEL_PUBLIC_KEY")
 	privateKey := os.Getenv("MARVEL_PRIVATE_KEY")
-	timeout := 5 * time.Second
+	timeout := 10 * time.Second
 	repository := mrepo.NewAPI(baseUrl, publicKey, privateKey, timeout)
 	return repository
 }
