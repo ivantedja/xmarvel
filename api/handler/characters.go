@@ -8,6 +8,7 @@ import (
 	"go.uber.org/zap"
 
 	"github.com/ivantedja/xmarvel/characters"
+	"github.com/ivantedja/xmarvel/entity"
 )
 
 type Characters struct {
@@ -24,7 +25,7 @@ func (c Characters) Index(w http.ResponseWriter, r *http.Request) {
 	cc, err := c.characters.Search(ctx)
 	if err != nil {
 		logger.Error("index", zap.Error(err))
-		render(w, ErrBadRequest, 400)
+		render(w, entity.ErrBadRequest{Message: "Bad Request"}, 400)
 		return
 	}
 
@@ -40,14 +41,14 @@ func (c Characters) Show(w http.ResponseWriter, r *http.Request) {
 	ID, err := strconv.Atoi(qID)
 	if err != nil {
 		logger.Error("show", zap.Error(err))
-		render(w, ErrBadRequest, 400)
+		render(w, entity.ErrBadRequest{Message: "Bad Request"}, 400)
 		return
 	}
 
 	cc, err := c.characters.Show(ctx, ID)
 	if err != nil {
 		logger.Error("show", zap.Error(err))
-		render(w, ErrBadRequest, 400)
+		render(w, entity.ErrBadRequest{Message: "Bad Request"}, 400)
 		return
 	}
 

@@ -20,3 +20,19 @@ type Character struct {
 	Name        string `json:"name"`
 	Modified    string `json:"-"`
 }
+
+type ErrNotFound struct {
+	Message string
+}
+
+func (e ErrNotFound) Error() string {
+	return e.Message
+}
+
+type ErrBadRequest struct {
+	Message string
+}
+
+func (e ErrBadRequest) Error() string {
+	return e.Message
+}

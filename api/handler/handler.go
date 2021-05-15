@@ -2,15 +2,13 @@ package handler
 
 import (
 	"encoding/json"
-	"errors"
 	"net/http"
 
 	"go.uber.org/zap"
 )
 
 var (
-	logger, _     = zap.NewProduction(zap.Fields(zap.String("type", "api handler")))
-	ErrBadRequest = errors.New("Bad Request")
+	logger, _ = zap.NewProduction(zap.Fields(zap.String("type", "api handler")))
 )
 
 func render(w http.ResponseWriter, body interface{}, status int) {

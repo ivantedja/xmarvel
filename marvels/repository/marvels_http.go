@@ -92,6 +92,10 @@ func (a *api) Show(ctx context.Context, ID int) (*entity.Character, error) {
 	}
 	defer resp.Body.Close()
 
+	if resp.StatusCode == http.StatusNotFound {
+		return nil, entity.ErrNotFound{Message: "Not Found"}
+	}
+
 	if resp.StatusCode != http.StatusOK {
 		dump, _ := httputil.DumpResponse(resp, true)
 		return nil, fmt.Errorf("error response: %q", dump)
