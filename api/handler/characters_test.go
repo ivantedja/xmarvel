@@ -77,3 +77,10 @@ func (s *HandlerTestSuite) TestErrorShow() {
 	w := s.Record(r)
 	s.Assert().Equal(http.StatusBadRequest, w.Code)
 }
+
+func (s *HandlerTestSuite) TestErrorNotFound() {
+	s.usecase.On("Show", mock.Anything, 1).Return(&entity.Character{}, entity.ErrNotFound{Message: "Not Found"}).Once()
+	r, _ := http.NewRequest("GET", "/characters/1", nil)
+	w := s.Record(r)
+	s.Assert().Equal(http.StatusNotFound, w.Code)
+}

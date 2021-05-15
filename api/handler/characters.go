@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"errors"
 	"net/http"
 	"strconv"
 
@@ -46,6 +47,12 @@ func (c Characters) Show(w http.ResponseWriter, r *http.Request) {
 	}
 
 	cc, err := c.characters.Show(ctx, ID)
+	if errors.Is(err, entity.ErrNotFound{Message: "Not Found"}) {
+		logger.Error("show", zap.Error(err))
+		render(w, err, 404)
+		return
+	}
+
 	if err != nil {
 		logger.Error("show", zap.Error(err))
 		render(w, entity.ErrBadRequest{Message: "Bad Request"}, 400)
