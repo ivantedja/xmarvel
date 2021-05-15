@@ -59,11 +59,23 @@ func (s *SearchTestSuite) TestCallMarvelsSuccess() {
 
 func (s *SearchTestSuite) TestCallMarvelsSuccessMany() {
 	s.CacheRepository.On("Get", mock.Anything, "marvels-characters").Return("", nil).Once()
-	s.MarvelsUsecase.On("Search", mock.Anything, map[string]string{"limit": "100", "offset": "0"}).Return(initiateCharacterCollectionResponse(293, 100, 0), nil).Once()
-	s.MarvelsUsecase.On("Search", mock.Anything, map[string]string{"limit": "100", "offset": "100"}).Return(initiateCharacterCollectionResponse(293, 100, 100), nil).Once()
-	s.MarvelsUsecase.On("Search", mock.Anything, map[string]string{"limit": "100", "offset": "200"}).Return(initiateCharacterCollectionResponse(293, 93, 200), nil).Once()
+	s.MarvelsUsecase.On("Search", mock.Anything, map[string]string{"limit": "100", "offset": "0"}).Return(initiateCharacterCollectionResponse(393, 100, 0), nil).Once()
+	s.MarvelsUsecase.On("Search", mock.Anything, map[string]string{"limit": "100", "offset": "100"}).Return(initiateCharacterCollectionResponse(393, 100, 100), nil).Once()
+	s.MarvelsUsecase.On("Search", mock.Anything, map[string]string{"limit": "100", "offset": "200"}).Return(initiateCharacterCollectionResponse(393, 100, 200), nil).Once()
+	s.MarvelsUsecase.On("Search", mock.Anything, map[string]string{"limit": "100", "offset": "300"}).Return(initiateCharacterCollectionResponse(393, 93, 300), nil).Once()
 	s.CacheRepository.On("Set", mock.Anything, mock.Anything, mock.Anything, mock.Anything).Return(nil)
 	arr, merr := s.usecase.Search(context.Background())
-	s.Assert().Equal(len(arr), 293)
+	s.Assert().Equal(len(arr), 393)
 	s.Assert().Nil(merr)
+}
+
+func (s *SearchTestSuite) TestCallMarvelsSuccessManyError() {
+	s.CacheRepository.On("Get", mock.Anything, "marvels-characters").Return("", nil).Once()
+	s.MarvelsUsecase.On("Search", mock.Anything, map[string]string{"limit": "100", "offset": "0"}).Return(initiateCharacterCollectionResponse(393, 100, 0), nil).Once()
+	s.MarvelsUsecase.On("Search", mock.Anything, map[string]string{"limit": "100", "offset": "100"}).Return(nil, errors.New("SomeError")).Once()
+	s.MarvelsUsecase.On("Search", mock.Anything, map[string]string{"limit": "100", "offset": "200"}).Return(initiateCharacterCollectionResponse(393, 100, 200), nil).Once()
+	s.MarvelsUsecase.On("Search", mock.Anything, map[string]string{"limit": "100", "offset": "300"}).Return(initiateCharacterCollectionResponse(393, 93, 300), nil).Once()
+	s.CacheRepository.On("Set", mock.Anything, mock.Anything, mock.Anything, mock.Anything).Return(nil)
+	_, merr := s.usecase.Search(context.Background())
+	s.Assert().NotNil(merr)
 }
